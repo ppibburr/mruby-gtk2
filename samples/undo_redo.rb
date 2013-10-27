@@ -4,7 +4,7 @@ class RubyApp < Gtk::Window
   @data = superclass.data
 
   def initialize *o
-    super
+    super *o
 
     set_title "Undo redo"
     
@@ -84,7 +84,8 @@ class RubyApp < Gtk::Window
 
   def self.new
     ins = super Gtk::WindowType::TOPLEVEL
-    ins.initialize
+ 
+    ins.send :initialize
     
     return ins
   end
