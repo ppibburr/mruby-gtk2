@@ -1,15 +1,11 @@
-# As mruby-girffi advances
-# Gtk::init()
-# Gtk::init(["array","of","args])
-# will be supported
-Gtk::init 0,nil
+Gtk::init()
 
-# As mruby-girffi progresses, enums will be supported by name in form of Symbol
-# ie, Gtk::Window.new(:toplevel)
-w = Gtk::Window.new 0
-w.add b = Gtk::Button.new_with_label("Quit")
+w = Gtk::Window.new Gtk::WindowType::TOPLEVEL
+w.set_title("simple.rb")
 
-b.signal_connect "clicked" do
+w.add b = Gtk::Button.new_with_mnemonic("_Quit")
+
+b.signal_connect "clicked" do |widget, data|
   Gtk::main_quit
 end
 
