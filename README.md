@@ -6,6 +6,9 @@ Synopsis
 ===
 A small convenience library that makes working with Gtk easier
 
+Conflicts with [mruby-gtk3](https://github.com/ppibburr/mruby-gtk3)
+===
+
 Requirements
 ===
 * [mruby-girffi](https://github.com/ppibburr/mruby-girffi) (MRBGEM)

@@ -1,5 +1,5 @@
 ## Explicit declaration to use version 2.x
-GirFFI::bind :Gtk, 2.0
+GirFFI::setup :Gtk, 2.0
 
 ## TODO: any version 2 specific handling.
 ## Gtk2 has Gtk::Object and must be loaded so as not to return ::Object
