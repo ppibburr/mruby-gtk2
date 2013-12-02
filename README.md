@@ -16,6 +16,12 @@ Requirements
 * libgtk2
 * GIRepository typelib information for Gtk2
 
+Documentation
+===
+Run:  
+`ruby document.rb`  
+This will create YARD documentation at `./doc`
+
 Example
 ===
 ```ruby
