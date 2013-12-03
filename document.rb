@@ -13,7 +13,7 @@ File.open "document.rb", "w" do |f|
   f.puts DATA.read
 end
 
-system "/home/ppibburr/git/mruby/bin/mruby document.rb"
+system "mruby document.rb"
 system "yard doc gtk*.rb"
 
 # FileUtils.rm_f "../../doc"
@@ -24,11 +24,6 @@ Dir.chdir "../../"
 `rm -rf tmp`
 
 __END__
-
-GirFFI::setup :Gio
-GirFFI::setup :Pango
-GirFFI::setup :GdkPixbuf
-
 DocGen.skip Gtk, :init
 dg = DocGen.new(Gtk)
 ns = dg.document()
