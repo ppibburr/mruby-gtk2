@@ -5,30 +5,33 @@ if ARGV.length > 0
   exit(1)
 end
 
-FileUtils.mkdir_p d="./tmp/dummy_source"
-
-Dir.chdir d
-
-File.open "document.rb", "w" do |f|
-  f.puts DATA.read
+unless `mruby -e "puts Gtk::MAJOR_VERSION"`.split("\n").last.to_i == 2
+  puts "ABORT: Gtk version != 2.x"
+  exit(127)
 end
 
-system "mruby document.rb"
-system "yard doc gtk*.rb"
+`rm -rf ./tmp`
+`mkdir ./tmp`
 
-# FileUtils.rm_f "../../doc"
-`rm -rf ../../doc`
-FileUtils.mv "doc", "../../"
+File.open("./tmp/runner.rb","w") do |f|
+  f.puts DATA.read
+end
+runner = File.expand_path("./tmp/runner.rb")
+od = File.expand_path(Dir.getwd)
+`rm -rf doc`
+Dir.chdir("../mruby-girffi-docgen-html/")
+system "ruby bin/docgen --lib=Gtk --runner=#{runner}"
+`cp -rf ./tmp/doc #{od}/`
+`rm -rf ./tmp`
 
-Dir.chdir "../../"
-`rm -rf tmp`
+Dir.chdir od
+`rm -rf ./tmp`
 
 __END__
 DocGen.overide Gtk, :init do
   param :argv => [[String], "Argument vector", true]
   returns "void"
 end
-
 
 DocGen.overide Gtk::ListStore, :set do
   symbol :gtk_list_store_set
@@ -61,8 +64,7 @@ DocGen.overide Gtk::TreeModel, :get_value do
   returns "GObject::Value", "that wraps the value"
 end
 
-
 dg = DocGen.new(Gtk)
-ns = dg.document()
-
-YARDGenerator.generate(ns)
+ns = dg.document
+g = DocGen::Generator::HTML.new(ns)
+g.generate
